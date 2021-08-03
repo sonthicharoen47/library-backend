@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/account", require("./routes/account.route"));
+app.use("/roleDetail", require("./routes/roleDetail.route"));
 
 app.listen(PORT, () => {
   console.log(`Server is running...`);
