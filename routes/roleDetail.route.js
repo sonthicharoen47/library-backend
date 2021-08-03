@@ -2,7 +2,7 @@ const roleDetailRoute = require("express").Router();
 const RoleDetail = require("../models/roleDetail.model");
 
 //get a roleDetail
-roleDetailRoute.post("/", async (req, res) => {
+roleDetailRoute.post("/me", async (req, res) => {
   const roleDetail = await findById(req.body.id_roleDetail, RoleDetail);
   if (roleDetail) {
     res.send(roleDetail);
