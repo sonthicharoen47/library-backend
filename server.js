@@ -12,6 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/account", require("./routes/account.route"));
+
 app.listen(PORT, () => {
   console.log(`Server is running...`);
 });
