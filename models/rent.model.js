@@ -2,21 +2,25 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
 const Role = require("./role.model");
 
-const RoleDetail = sequelize.define(
-  "roleDetail",
+const Rent = sequelize.define(
+  "rent",
   {
-    id_roleDetail: {
+    id_rent: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false,
       autoIncrement: true,
-    },
-    position: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
-    salary: {
-      type: DataTypes.INTEGER,
+    start_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    end_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -26,5 +30,6 @@ const RoleDetail = sequelize.define(
   }
 );
 
+Rent.belongsTo(Role, { foreignKey: "fk_role" });
 
-module.exports = RoleDetail;
+module.exports = Rent;

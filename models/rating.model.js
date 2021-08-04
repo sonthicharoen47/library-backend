@@ -1,22 +1,26 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
 const Role = require("./role.model");
+const Book = require("./book.model");
 
-const RoleDetail = sequelize.define(
-  "roleDetail",
+const Rating = sequelize.define(
+  "rating",
   {
-    id_roleDetail: {
+    id_rating: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false,
       autoIncrement: true,
-    },
-    position: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
-    salary: {
+    score: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    Comment: {
+      type: DataTypes.STRING,
+    },
+    time: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },
@@ -26,5 +30,7 @@ const RoleDetail = sequelize.define(
   }
 );
 
+Rating.belongsTo(Role, { foreignKey: "fk_role" });
+Rating.belongsTo(Book, { foreignKey: "fk_book" });
 
-module.exports = RoleDetail;
+module.exports = Rating;

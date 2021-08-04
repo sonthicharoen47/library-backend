@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { testDatabaseConnection } = require("./dbConfig");
+const { testDatabaseConnection, sequelize } = require("./dbConfig");
 const PORT = process.env.PORT || 8080;
 
 const app = express();
@@ -14,7 +14,10 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/account", require("./routes/account.route"));
 app.use("/roleDetail", require("./routes/roleDetail.route"));
+app.use("/role", require("./routes/role.route"));
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await sequelize.sync({ alter: true });
   console.log(`Server is running...`);
+  console.log(sequelize.models);
 });

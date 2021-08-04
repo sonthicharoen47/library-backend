@@ -1,22 +1,17 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Role = require("./role.model");
 
-const RoleDetail = sequelize.define(
-  "roleDetail",
+const Category = sequelize.define(
+  "category",
   {
-    id_roleDetail: {
+    id_category: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false,
       autoIncrement: true,
-    },
-    position: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
-    salary: {
-      type: DataTypes.INTEGER,
+    category_name: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -26,5 +21,4 @@ const RoleDetail = sequelize.define(
   }
 );
 
-
-module.exports = RoleDetail;
+module.exports = Category;
