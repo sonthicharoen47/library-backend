@@ -1,10 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Rent = require("./rent.model");
-const Role = require("./role.model");
 
 const Transection = sequelize.define(
-  "transection",
+  "Transection",
   {
     id_transection: {
       type: DataTypes.INTEGER,
@@ -25,12 +23,9 @@ const Transection = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    tableName: "transection",
     timestamps: false,
   }
 );
-
-Transection.belongsTo(Role, { foreignKey: "fk_role" });
-Transection.belongsTo(Rent, { foreignKey: "fk_rent" });
 
 module.exports = Transection;

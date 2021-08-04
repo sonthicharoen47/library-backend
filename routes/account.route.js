@@ -1,5 +1,5 @@
 const accountRoute = require("express").Router();
-const Account = require("../models/account.model");
+const { Account } = require("../models/index");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 

@@ -1,10 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Role = require("./role.model");
-const Book = require("./book.model");
 
 const Rating = sequelize.define(
-  "rating",
+  "Rating",
   {
     id_rating: {
       type: DataTypes.INTEGER,
@@ -25,12 +23,9 @@ const Rating = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    tableName: "rating",
     timestamps: false,
   }
 );
-
-Rating.belongsTo(Role, { foreignKey: "fk_role" });
-Rating.belongsTo(Book, { foreignKey: "fk_book" });
 
 module.exports = Rating;

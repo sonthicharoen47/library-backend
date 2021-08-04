@@ -1,9 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Rent = require("./rent.model");
 
 const RentDetail = sequelize.define(
-  "rentDetail",
+  "RentDetail",
   {
     id_rentDetail: {
       type: DataTypes.INTEGER,
@@ -16,12 +15,9 @@ const RentDetail = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    tableName: "rentDetail",
     timestamps: false,
   }
 );
-
-RentDetail.belongsTo(Rent, { foreignKey: "fk_rent" });
-RentDetail.belongsTo(Book, { foreignKey: "fk_book" });
 
 module.exports = RentDetail;

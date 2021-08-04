@@ -1,9 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Role = require("./role.model");
 
 const RoleDetail = sequelize.define(
-  "roleDetail",
+  "RoleDetail",
   {
     id_roleDetail: {
       type: DataTypes.INTEGER,
@@ -21,10 +20,9 @@ const RoleDetail = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    tableName: "roleDetail",
     timestamps: false,
   }
 );
-
 
 module.exports = RoleDetail;

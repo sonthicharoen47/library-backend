@@ -1,9 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Role = require("./role.model");
 
 const Rent = sequelize.define(
-  "rent",
+  "Rent",
   {
     id_rent: {
       type: DataTypes.INTEGER,
@@ -25,11 +24,9 @@ const Rent = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    tableName: "rent",
     timestamps: false,
   }
 );
-
-Rent.belongsTo(Role, { foreignKey: "fk_role" });
 
 module.exports = Rent;

@@ -17,7 +17,6 @@ app.use("/roleDetail", require("./routes/roleDetail.route"));
 app.use("/role", require("./routes/role.route"));
 
 app.listen(PORT, async () => {
-  await sequelize.sync({ alter: true });
+  //await sequelize.sync({ force: true });
   console.log(`Server is running...`);
-  console.log(sequelize.models);
 });

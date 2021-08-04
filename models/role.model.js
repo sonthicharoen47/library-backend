@@ -1,7 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../dbConfig");
-const Account = require("./account.model");
-const RoleDetail = require("./roleDetail.model");
+
 const Role = sequelize.define(
   "Role",
   {

@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../dbConfig");
 
 const Category = sequelize.define(
-  "category",
+  "Category",
   {
     id_category: {
       type: DataTypes.INTEGER,
@@ -16,7 +16,7 @@ const Category = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    tableName: "category",
     timestamps: false,
   }
 );
