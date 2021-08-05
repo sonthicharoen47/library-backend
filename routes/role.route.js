@@ -1,5 +1,5 @@
 const roleRoute = require("express").Router();
-const Role = require("../models/role.model");
+const {Role} = require("../models");
 
 roleRoute.get("/", (req, res) => {
   Role.findAll({

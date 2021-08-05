@@ -1,5 +1,5 @@
 const authorRoute = require("express").Router();
-const Author = require("../models/author.model");
+const { Author } = require("../models");
 
 authorRoute.get("/findAll", (req, res) => {
   Author.findAll()

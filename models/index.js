@@ -46,4 +46,11 @@ module.exports = {
   Account,
   Role,
   RoleDetail,
+  Book,
+  Author,
+  Category,
+  Rating,
+  Rent,
+  RentDetail,
+  Transection,
 };

@@ -1,5 +1,5 @@
 const roleDetailRoute = require("express").Router();
-const RoleDetail = require("../models/roleDetail.model");
+const { RoleDetail } = require("../models");
 
 //get a roleDetail
 roleDetailRoute.post("/me", async (req, res) => {
