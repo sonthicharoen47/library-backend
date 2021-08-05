@@ -1,6 +1,6 @@
 const route = require("express").Router();
 const passport = require("passport");
-const ensureAuthenticated = require("../auth");
+const ensureAuthenticated = require("../middleware/auth");
 
 route.post(
   "/login",
