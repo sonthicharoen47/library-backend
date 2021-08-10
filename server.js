@@ -25,6 +25,14 @@ app.use("/roleDetail", require("./routes/roleDetail.route"));
 app.use("/role", require("./routes/role.route"));
 app.use("/", require("./routes/login_register"));
 
+app.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.send("hello profile route");
+  }
+);
+
 app.listen(PORT, async () => {
   await sequelize.sync({ force: true });
   console.log(`Server is running...`);

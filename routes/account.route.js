@@ -33,9 +33,9 @@ accountRoute.post("/register", async (req, res) => {
     let hashPassword = bcrypt.hashSync(data.password, salt);
     data.password = hashPassword;
     await Account.create(data);
-    res.send("register successfully!");
+    res.send({ message: "register successful!" });
   } else {
-    res.send(`missing : ${valueInputMissing}`);
+    res.send({ message: `missing : ${valueInputMissing}` });
   }
 });
 

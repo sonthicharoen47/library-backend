@@ -1,6 +1,8 @@
 const LocalStrategy = require("passport-local").Strategy;
 const { Account } = require("../models");
 const bcrypt = require("bcrypt");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 module.exports = (passport) => {
   passport.use(
@@ -24,6 +26,27 @@ module.exports = (passport) => {
           });
         } else {
           return done(null, false);
+        }
+      }
+    )
+  );
+
+  passport.use(
+    new JwtStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: "secretKey",
+      },
+      (jwtPayload, done) => {
+        try {
+          let user = Account.findOne({ where: { id_account: jwtPayload.id } });
+          if (user) {
+            return done(null, user);
+          } else {
+            return done(null, false);
+          }
+        } catch (error) {
+          return done(error, false);
         }
       }
     )

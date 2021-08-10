@@ -40,6 +40,7 @@ const Account = sequelize.define(
     },
     lastLogged: {
       type: DataTypes.DATE,
+      defaultValue: null,
     },
   },
   {
