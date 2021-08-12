@@ -21,19 +21,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/account", require("./routes/account.route"));
-app.use("/roleDetail", require("./routes/roleDetail.route"));
 app.use("/role", require("./routes/role.route"));
 app.use("/", require("./routes/login_register"));
-
-app.get(
-  "/profile",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.send("hello profile route");
-  }
-);
+app.use("/book", require("./routes/book.route"));
 
 app.listen(PORT, async () => {
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ alter: true });
   console.log(`Server is running...`);
 });

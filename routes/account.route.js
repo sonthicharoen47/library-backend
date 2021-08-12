@@ -1,5 +1,5 @@
 const accountRoute = require("express").Router();
-const { Account } = require("../models/index");
+const { Account, Role, RoleDetail } = require("../models/index");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -32,8 +32,19 @@ accountRoute.post("/register", async (req, res) => {
     let salt = bcrypt.genSaltSync(saltRounds);
     let hashPassword = bcrypt.hashSync(data.password, salt);
     data.password = hashPassword;
-    await Account.create(data);
-    res.send({ message: "register successful!" });
+    let account = await Account.create(data);
+    let findRoleDetail = await RoleDetail.findOne({
+      where: {
+        position: "user",
+      },
+    });
+    let role = {
+      fk_account: account.id_account,
+      fk_roleDetail: findRoleDetail.id_roleDetail,
+      status: "active",
+    };
+    let createRole = await Role.create(role);
+    res.send({ message: "register successful!", createRole });
   } else {
     res.send({ message: `missing : ${valueInputMissing}` });
   }

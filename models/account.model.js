@@ -42,6 +42,7 @@ const Account = sequelize.define(
       type: DataTypes.DATE,
       defaultValue: null,
     },
+    
   },
   {
     tableName: "account",

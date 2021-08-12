@@ -53,10 +53,12 @@ module.exports = (passport) => {
   );
 
   passport.serializeUser(function (account, done) {
-    done(null, account);
+    done(null, account.id_account);
   });
 
-  passport.deserializeUser(function (account, done) {
-    done(null, account);
+  passport.deserializeUser(function (id, done) {
+    Account.findByPk(id, function (err, account) {
+      done(err, account);
+    });
   });
 };
