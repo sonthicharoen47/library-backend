@@ -32,19 +32,24 @@ accountRoute.post("/register", async (req, res) => {
     let salt = bcrypt.genSaltSync(saltRounds);
     let hashPassword = bcrypt.hashSync(data.password, salt);
     data.password = hashPassword;
-    let account = await Account.create(data);
-    let findRoleDetail = await RoleDetail.findOne({
-      where: {
-        position: "user",
-      },
-    });
-    let role = {
-      fk_account: account.id_account,
-      fk_roleDetail: findRoleDetail.id_roleDetail,
-      status: "active",
-    };
-    let createRole = await Role.create(role);
-    res.send({ message: "register successful!", createRole });
+    try {
+      let account = await Account.create(data);
+
+      let findRoleDetail = await RoleDetail.findOne({
+        where: {
+          position: "user",
+        },
+      });
+      let role = {
+        fk_account: account.id_account,
+        fk_roleDetail: findRoleDetail.id_roleDetail,
+        status: "active",
+      };
+      let createRole = await Role.create(role);
+      res.send({ message: "register successful!", createRole });
+    } catch (error) {
+      res.send({ message: "email has already been used" });
+    }
   } else {
     res.send({ message: `missing : ${valueInputMissing}` });
   }

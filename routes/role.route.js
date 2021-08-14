@@ -1,5 +1,5 @@
 const roleRoute = require("express").Router();
-const {Role} = require("../models");
+const { Role } = require("../models");
 
 roleRoute.get("/", (req, res) => {
   Role.findAll({
@@ -11,6 +11,11 @@ roleRoute.get("/", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+//get a account
+roleRoute.post("/findAccountById/me", async (req, res) => {
+  // id -> roleId from front-end
 });
 
 module.exports = roleRoute;
