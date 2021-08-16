@@ -7,7 +7,7 @@ route.post("/login", (req, res, next) => {
   passport.authenticate(
     "local",
     { session: false },
-    async (err, user, info) => {
+    async function (err, user, info) {
       if (err) return next(err);
       if (user) {
         const checkRole = await Role.findOne({
@@ -17,21 +17,29 @@ route.post("/login", (req, res, next) => {
           },
         });
 
-        const data = {
-          id: checkRole.id_role,
-          email: user.email,
-          fname: user.fname,
-          lname: user.lname,
-        };
+        // const data = {
+        //   id: checkRole.id_role,
+        //   email: user.email,
+        //   fname: user.fname,
+        //   lname: user.lname,
+        // };
 
         const token = jwt.sign(
           { id: checkRole.id_role, email: user.email },
           "secretKey",
-          { expiresIn: "7d" }
+          { expiresIn: "1h" }
         );
-        return res.json({ data, token });
+        req.login(user, (err) => {
+          if (err) {
+            return res.status(401).json(err);
+          } else {
+            res.json({ token });
+          }
+        });
+
+        // return res.json({ token });
       } else {
-        return res.status(422).json(info);
+        return res.status(401).json(info);
       }
     }
   )(req, res, next);

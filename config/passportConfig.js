@@ -14,18 +14,24 @@ module.exports = (passport) => {
             where: {
               email: email,
             },
-          }).then((user) => {
-            if (!user) {
-              return done(null, false);
-            }
-            let validePassword = bcrypt.compareSync(password, user.password);
-            if (!validePassword) {
-              return done(null, false);
-            }
-            return done(null, user);
-          });
+          })
+            .then((user) => {
+              if (!user) {
+                return done(null, false, { message: "no such user found" });
+              }
+              let validePassword = bcrypt.compareSync(password, user.password);
+              if (!validePassword) {
+                return done(null, false, { message: "password did not match" });
+              }
+              return done(null, user);
+            })
+            .catch((err) => {
+              console.log("error logging user in. message : " + err);
+              return done(err);
+            });
         } else {
-          return done(null, false);
+          console.log("email or password are empty!");
+          return done(null, false, { message: "email or password are empty!" });
         }
       }
     )
@@ -52,13 +58,15 @@ module.exports = (passport) => {
     )
   );
 
-  passport.serializeUser(function (account, done) {
-    done(null, account.id_account);
+  passport.serializeUser(function (user, done) {
+    console.log("serializeUser");
+    done(null, user.id_account);
   });
 
   passport.deserializeUser(function (id, done) {
-    Account.findByPk(id, function (err, account) {
-      done(err, account);
-    });
+    console.log("deserializeUser");
+    Account.findByPk(id)
+      .then((user) => done(null, user))
+      .catch((err) => done(err, null));
   });
 };
