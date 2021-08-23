@@ -11,4 +11,14 @@ authorRoute.get("/findAll", (req, res) => {
     });
 });
 
+authorRoute.post("/addAuthor", async (req, res) => {
+  await Author.create({ author_name: req.body.author_name })
+    .then((result) => {
+      res.send({ message: "add new author success!" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = authorRoute;

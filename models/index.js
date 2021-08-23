@@ -35,6 +35,9 @@ RentDetail.belongsTo(Rent, { foreignKey: "fk_rent" });
 Book.hasMany(RentDetail, { foreignKey: "fk_book" });
 RentDetail.belongsTo(Book, { foreignKey: "fk_book" });
 
+Role.hasMany(Rent, { foreignKey: "fk_role" });
+Rent.belongsTo(Role, { foreignKey: "fk_role" });
+
 module.exports = {
   Account,
   Role,

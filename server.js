@@ -32,9 +32,14 @@ app.use(
   passport.authenticate("jwt", { session: false }),
   require("./routes/book.route")
 );
+app.use("/roleDetail", require("./routes/roleDetail.route"));
+app.use("/author", require("./routes/author.route"));
+
+app.use("/rentDetail", require("./routes/rentDetail.route"));
+app.use("/category", require("./routes/category.route"));
 
 app.listen(PORT, async () => {
-  // await sequelize.sync({ alter: true });
+  await sequelize.sync({ alter: true });
   //await sequelize.sync({ force: true });
   console.log(`Server is running...`);
 });

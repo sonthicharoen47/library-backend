@@ -45,4 +45,9 @@ route.post("/login", (req, res, next) => {
   )(req, res, next);
 });
 
+route.get("/logout", (req, res) => {
+  req.logout();
+  res.send({ message: "logout successful!" });
+});
+
 module.exports = route;

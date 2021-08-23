@@ -11,6 +11,22 @@ roleDetailRoute.post("/me", async (req, res) => {
   }
 });
 
+//add a new role
+roleDetailRoute.post("/addRole", async (req, res) => {
+  let data = {
+    position: req.body.position,
+    salary: req.body.salary,
+  };
+
+  await RoleDetail.create(data)
+    .then((result) => {
+      res.send({ message: "add a new roleDetail success!" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = roleDetailRoute;
 
 async function findById(id, model) {
