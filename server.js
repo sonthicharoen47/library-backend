@@ -6,6 +6,7 @@ const passport = require("passport");
 require("dotenv").config();
 require("./config/passportConfig")(passport);
 const { testDatabaseConnection, sequelize } = require("./config/dbConfig");
+const ensureAuthenticated = require("./middleware/auth");
 const PORT = process.env.PORT || 8080;
 
 const app = express();
@@ -14,15 +15,16 @@ testDatabaseConnection();
 
 app.set("trust proxy", 1);
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/account", require("./routes/account.route"));
 app.use(
   "/role",
+  ensureAuthenticated,
   passport.authenticate("jwt", { session: false }),
   require("./routes/role.route")
 );
@@ -35,7 +37,12 @@ app.use(
 app.use("/roleDetail", require("./routes/roleDetail.route"));
 app.use("/author", require("./routes/author.route"));
 
-app.use("/rentDetail", require("./routes/rentDetail.route"));
+app.use(
+  "/rentDetail",
+  passport.authenticate("jwt", { session: false }),
+  require("./routes/rentDetail.route")
+);
+
 app.use("/category", require("./routes/category.route"));
 
 app.listen(PORT, async () => {

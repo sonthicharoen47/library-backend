@@ -17,13 +17,6 @@ route.post("/login", (req, res, next) => {
           },
         });
 
-        // const data = {
-        //   id: checkRole.id_role,
-        //   email: user.email,
-        //   fname: user.fname,
-        //   lname: user.lname,
-        // };
-
         const token = jwt.sign(
           { id: checkRole.id_role, email: user.email },
           "secretKey",
@@ -36,7 +29,6 @@ route.post("/login", (req, res, next) => {
             res.json({ token });
           }
         });
-
         // return res.json({ token });
       } else {
         return res.status(401).json(info);

@@ -1,5 +1,5 @@
 const LocalStrategy = require("passport-local").Strategy;
-const { Account } = require("../models");
+const { Account, Role } = require("../models");
 const bcrypt = require("bcrypt");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -23,6 +23,7 @@ module.exports = (passport) => {
               if (!validePassword) {
                 return done(null, false, { message: "password did not match" });
               }
+
               return done(null, user);
             })
             .catch((err) => {
@@ -60,12 +61,12 @@ module.exports = (passport) => {
 
   passport.serializeUser(function (user, done) {
     console.log("serializeUser");
-    done(null, user.id_account);
+    done(null, user);
   });
 
-  passport.deserializeUser(function (id, done) {
+  passport.deserializeUser(async function (user, done) {
     console.log("deserializeUser");
-    Account.findByPk(id)
+    await Account.findByPk(user.id_account)
       .then((user) => done(null, user))
       .catch((err) => done(err, null));
   });
