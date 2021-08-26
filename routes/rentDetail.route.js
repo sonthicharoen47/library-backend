@@ -5,6 +5,7 @@ const { Rent, RentDetail, Role } = require("../models/index");
 rentDetailRoute.post("/add", async (req, res) => {
   //check req.body.bookRent 1st
   //find role
+  console.log(req.body);
   let role = await Role.findOne({
     //create a new middleware?
     where: {

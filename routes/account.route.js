@@ -16,6 +16,7 @@ accountRoute.get("/findAll", (req, res) => {
 
 //add new account
 accountRoute.post("/register", async (req, res) => {
+  console.log(req.body);
   const data = {
     fname: req.body.fname,
     lname: req.body.lname,
