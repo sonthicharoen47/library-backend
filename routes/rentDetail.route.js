@@ -44,16 +44,13 @@ rentDetailRoute.post("/add", async (req, res) => {
                   fk_book: bookRentList[i].id_book,
                   fk_rent: result.id_rent,
                 };
-                await RentDetail.create(data)
-                  .then(() => {
-                    res
-                      .status(200)
-                      .send({ message: "add rentDetail success!" });
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                var rentCreate = await RentDetail.create(data).catch((err) => {
+                  console.log(err);
+                });
               }
+            }
+            if (rentCreate) {
+              res.status(200).send({ message: "add rentDetail success!" });
             }
           })
           .catch((err) => {
@@ -61,6 +58,63 @@ rentDetailRoute.post("/add", async (req, res) => {
           });
       }
     }
+  }
+});
+
+rentDetailRoute.get("/findAll/me", async (req, res) => {
+  //history rent for me
+  //database rent join rentDetail
+
+  try {
+    let user = req.session.passport.user.id_account;
+    const role = await Role.findOne({
+      where: {
+        fk_account: user,
+      },
+    });
+
+    if (!role) {
+      throw new Error("id not found!");
+    }
+
+    const rentDetail = await Rent.findAll({
+      where: {
+        fk_role: role.id_role,
+      },
+      attributes: ["id_rent", "start_date", "end_date", "status"],
+      order: [["start_date", "DESC"]],
+      include: [
+        {
+          model: RentDetail,
+          attributes: ["date_return", "fk_book"],
+        },
+      ],
+    });
+
+    //find or split or get dateonly from start_date
+    const arr_date = [];
+    var arr_obj = [];
+    var result = [];
+
+    for (let i = 0, j = 0; i < rentDetail.length; i++) {
+      let dateString = JSON.stringify(rentDetail[i].start_date).slice(1, 11);
+      let findX = arr_date.find((element) => element == dateString);
+      if (!findX) {
+        if (i > 0) {
+          result.push({ date: arr_date[j], rentArr: arr_obj });
+          j++;
+          arr_obj = [];
+        }
+        arr_date.push(dateString);
+      } else if (i == rentDetail.length - 1) {
+        result.push({ date: arr_date[j], rentArr: arr_obj });
+      }
+      arr_obj.push(rentDetail[i]);
+    }
+
+    res.send(result);
+  } catch (error) {
+    console.log(error);
   }
 });
 
