@@ -1,5 +1,5 @@
 const rentDetailRoute = require("express").Router();
-const { Rent, RentDetail, Role } = require("../models/index");
+const { Rent, RentDetail, Role, Book } = require("../models/index");
 
 //create rent detail
 rentDetailRoute.post("/add", async (req, res) => {
@@ -87,9 +87,34 @@ rentDetailRoute.get("/findAll/me", async (req, res) => {
         {
           model: RentDetail,
           attributes: ["date_return", "fk_book"],
+          include: [
+            {
+              model: Book,
+            },
+          ],
         },
       ],
     });
+    // res.send(rentDetail);
+
+    // const rentDetail = await RentDetail.findAll({
+    //   attributes: ["date_return"],
+    //   include: [
+    //     {
+    //       model: Rent,
+    //       where: {
+    //         fk_role: role.id_role,
+    //       },
+    //       attributes: ["start_date", "end_date", "status"],
+    //     },
+    //     {
+    //       model: Book,
+    //       attributes: ["title"],
+    //     },
+    //   ],
+    // });
+
+    //res.send(rentDetail);
 
     //find or split or get dateonly from start_date
     const arr_date = [];
@@ -106,12 +131,12 @@ rentDetailRoute.get("/findAll/me", async (req, res) => {
           arr_obj = [];
         }
         arr_date.push(dateString);
-      } else if (i == rentDetail.length - 1) {
+      }
+      if (i == rentDetail.length - 1) {
         result.push({ date: arr_date[j], rentArr: arr_obj });
       }
       arr_obj.push(rentDetail[i]);
     }
-
     res.send(result);
   } catch (error) {
     console.log(error);
