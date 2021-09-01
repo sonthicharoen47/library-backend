@@ -2,21 +2,42 @@ const ensureAuthenticated = require("../middleware/auth");
 const passport = require("passport");
 
 module.exports = (app) => {
-  app.use("/account", require("./account.route"));
+  app.use("/", require("./login_register"));
+
+  app.use(
+    "/account",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./account.route")
+  );
+
   app.use(
     "/role",
     ensureAuthenticated,
     passport.authenticate("jwt", { session: false }),
     require("./role.route")
   );
-  app.use("/", require("./login_register"));
+
   app.use(
     "/book",
+    ensureAuthenticated,
     passport.authenticate("jwt", { session: false }),
     require("./book.route")
   );
-  app.use("/roleDetail", require("./roleDetail.route"));
-  app.use("/author", require("./author.route"));
+
+  app.use(
+    "/roleDetail",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./roleDetail.route")
+  );
+
+  app.use(
+    "/author",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./author.route")
+  );
 
   app.use(
     "/rentDetail",
@@ -25,5 +46,10 @@ module.exports = (app) => {
     require("./rentDetail.route")
   );
 
-  app.use("/category", require("./category.route"));
+  app.use(
+    "/category",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./category.route")
+  );
 };

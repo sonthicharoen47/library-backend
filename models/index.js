@@ -26,9 +26,6 @@ Rating.belongsTo(Book, { foreignKey: "fk_book" });
 Role.hasMany(Rating, { foreignKey: "fk_role" });
 Rating.belongsTo(Role, { foreignKey: "fk_role" });
 
-Book.hasMany(Rating, { foreignKey: "fk_book" });
-Rating.belongsTo(Book, { foreignKey: "fk_book" });
-
 Rent.hasMany(RentDetail, { foreignKey: "fk_rent" });
 RentDetail.belongsTo(Rent, { foreignKey: "fk_rent" });
 
