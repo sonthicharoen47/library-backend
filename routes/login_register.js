@@ -33,10 +33,10 @@ route.post("/login", (req, res, next) => {
           role: checkRole.RoleDetail.position,
         };
 
-        const token = jwt.sign( 
+        const token = jwt.sign(
           { id: checkRole.id_role, email: user.email },
           "secretKey",
-          { expiresIn: "1h" }
+          { expiresIn: "1d" }
         );
         req.login(user, (err) => {
           if (err) {

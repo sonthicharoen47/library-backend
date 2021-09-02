@@ -1,4 +1,4 @@
-const ensureAuthenticated = require("../middleware/auth");
+const { ensureAuthenticated } = require("../middleware/auth");
 const passport = require("passport");
 
 module.exports = (app) => {
@@ -51,5 +51,12 @@ module.exports = (app) => {
     ensureAuthenticated,
     passport.authenticate("jwt", { session: false }),
     require("./category.route")
+  );
+
+  app.use(
+    "/rating",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./rating.route")
   );
 };

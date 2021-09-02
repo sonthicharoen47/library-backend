@@ -97,25 +97,6 @@ rentDetailRoute.get("/findAll/me", async (req, res) => {
     });
     // res.send(rentDetail);
 
-    // const rentDetail = await RentDetail.findAll({
-    //   attributes: ["date_return"],
-    //   include: [
-    //     {
-    //       model: Rent,
-    //       where: {
-    //         fk_role: role.id_role,
-    //       },
-    //       attributes: ["start_date", "end_date", "status"],
-    //     },
-    //     {
-    //       model: Book,
-    //       attributes: ["title"],
-    //     },
-    //   ],
-    // });
-
-    //res.send(rentDetail);
-
     //find or split or get dateonly from start_date
     const arr_date = [];
     var arr_obj = [];

@@ -23,7 +23,6 @@ module.exports = (passport) => {
               if (!validePassword) {
                 return done(null, false, { message: "password did not match" });
               }
-
               return done(null, user);
             })
             .catch((err) => {

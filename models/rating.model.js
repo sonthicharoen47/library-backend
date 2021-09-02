@@ -11,10 +11,10 @@ const Rating = sequelize.define(
       allowNull: false,
     },
     score: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
-    Comment: {
+    comment: {
       type: DataTypes.STRING,
     },
     time: {
