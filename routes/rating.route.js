@@ -1,9 +1,8 @@
 const ratingRoute = require("express").Router();
-const { Rating } = require("../models/index");
+const { Rating, Role, Account } = require("../models/index");
 
 const { getRole } = require("../middleware/func");
 
-//get all by book id
 ratingRoute.post("/findAll", async (req, res) => {
   let bookId = req.body.fk_book;
   if (!bookId) {
@@ -48,6 +47,44 @@ ratingRoute.post("/comment", async (req, res) => {
       res.send({ err: "max score is 5.00 " });
     }
   }
+});
+
+ratingRoute.get("/getComment", async (req, res) => {
+  await Rating.findAll({
+    where: {
+      fk_book: req.body.fk_book,
+    },
+    include: [
+      {
+        model: Role,
+        include: [
+          {
+            model: Account,
+            attributes: ["fname", "lname"],
+          },
+        ],
+        attributes: ["fk_account"],
+      },
+    ],
+    order: [["id_rating", "DESC"]],
+  })
+    .then((data) => {
+      let result = [];
+      for (let i = 0; i < data.length; i++) {
+        result.push({
+          id_rating: data[i].id_rating,
+          score: data[i].score,
+          date: JSON.stringify(data[i].time).slice(1, 11),
+          time: JSON.stringify(data[i].time).slice(12, 20),
+          fname: data[i].Role.Account.fname,
+          lname: data[i].Role.Account.lname,
+        });
+      }
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 module.exports = ratingRoute;

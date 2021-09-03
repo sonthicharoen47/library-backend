@@ -9,7 +9,7 @@ bookRoute.post("/addBook", async (req, res) => {
     fk_category: req.body.fk_category,
   };
   await Book.create(data)
-    .then((result) => {
+    .then(() => {
       res.send({ message: "add book success!" });
     })
     .catch((err) => {
