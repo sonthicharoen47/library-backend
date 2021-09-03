@@ -25,7 +25,7 @@ ratingRoute.post("/findAll", async (req, res) => {
 ratingRoute.post("/comment", async (req, res) => {
   let role = await getRole(req.session.passport.user.id_account);
   if (role) {
-    if (req.body.score < 5) {
+    if (req.body.score <= 5) {
       let data = {
         score: req.body.score,
         time: new Date(),
@@ -44,7 +44,7 @@ ratingRoute.post("/comment", async (req, res) => {
           console.log(err);
         });
     } else {
-      res.send({ err: "max score is 5.00 " });
+      res.send({ err: "max score is 5.00 and must positive nuber" });
     }
   }
 });
