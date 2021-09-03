@@ -49,7 +49,7 @@ ratingRoute.post("/comment", async (req, res) => {
   }
 });
 
-ratingRoute.get("/getComment", async (req, res) => {
+ratingRoute.post("/getComment", async (req, res) => {
   await Rating.findAll({
     where: {
       fk_book: req.body.fk_book,
