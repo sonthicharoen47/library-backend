@@ -78,6 +78,7 @@ ratingRoute.post("/getComment", async (req, res) => {
           time: JSON.stringify(data[i].time).slice(12, 20),
           fname: data[i].Role.Account.fname,
           lname: data[i].Role.Account.lname,
+          comment: data[i].comment,
         });
       }
       res.send(result);

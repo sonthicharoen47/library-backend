@@ -15,60 +15,60 @@ accountRoute.get("/findAll", (req, res) => {
 });
 
 //add new account
-accountRoute.post("/register", async (req, res) => {
-  console.log(req.body);
-  const data = {
-    fname: req.body.fname,
-    lname: req.body.lname,
-    email: req.body.email,
-    password: req.body.password,
-    dob: req.body.dob,
-    phone: req.body.phone,
-    cratedAt: new Date(),
-  };
+// accountRoute.post("/register", async (req, res) => {
+//   console.log(req.body);
+//   const data = {
+//     fname: req.body.fname,
+//     lname: req.body.lname,
+//     email: req.body.email,
+//     password: req.body.password,
+//     dob: req.body.dob,
+//     phone: req.body.phone,
+//     cratedAt: new Date(),
+//   };
 
-  const valueInputMissing = checkValueMissing(data);
+//   const valueInputMissing = checkValueMissing(data);
 
-  if (!valueInputMissing) {
-    let salt = bcrypt.genSaltSync(saltRounds);
-    let hashPassword = bcrypt.hashSync(data.password, salt);
-    data.password = hashPassword;
+//   if (!valueInputMissing) {
+//     let salt = bcrypt.genSaltSync(saltRounds);
+//     let hashPassword = bcrypt.hashSync(data.password, salt);
+//     data.password = hashPassword;
 
-    //check email uniq?
-    let checkEmail = await Account.findOne({
-      where: {
-        email: data.email,
-      },
-    });
+//     //check email uniq?
+//     let checkEmail = await Account.findOne({
+//       where: {
+//         email: data.email,
+//       },
+//     });
 
-    if (!checkEmail) {
-      try {
-        let account = await Account.create(data);
+//     if (!checkEmail) {
+//       try {
+//         let account = await Account.create(data);
 
-        let findRoleDetail = await RoleDetail.findOne({
-          where: {
-            position: "user",
-          },
-        });
+//         let findRoleDetail = await RoleDetail.findOne({
+//           where: {
+//             position: "user",
+//           },
+//         });
 
-        let role = {
-          fk_account: account.id_account,
-          fk_roleDetail: findRoleDetail.id_roleDetail,
-          status: "active",
-        };
+//         let role = {
+//           fk_account: account.id_account,
+//           fk_roleDetail: findRoleDetail.id_roleDetail,
+//           status: "active",
+//         };
 
-        await Role.create(role);
-        res.send({ message: "register successful!" });
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      res.status(400).send({ err: "email has already been used" });
-    }
-  } else {
-    res.send({ err: `missing : ${valueInputMissing}` });
-  }
-});
+//         await Role.create(role);
+//         res.send({ message: "register successful!" });
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     } else {
+//       res.status(400).send({ err: "email has already been used" });
+//     }
+//   } else {
+//     res.send({ err: `missing : ${valueInputMissing}` });
+//   }
+// });
 
 //findOne
 accountRoute.post("/findOne/me", async (req, res) => {

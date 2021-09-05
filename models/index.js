@@ -20,7 +20,7 @@ Book.belongsTo(Author, { foreignKey: "fk_author" });
 Category.hasMany(Book, { foreignKey: "fk_category" });
 Book.belongsTo(Category, { foreignKey: "fk_category" });
 
-Book.hasOne(Rating, { foreignKey: "fk_book" });
+Book.hasMany(Rating, { foreignKey: "fk_book" });
 Rating.belongsTo(Book, { foreignKey: "fk_book" });
 
 Role.hasMany(Rating, { foreignKey: "fk_role" });
