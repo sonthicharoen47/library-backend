@@ -22,7 +22,7 @@ bookRoute.get("/findAll", async (req, res) => {
     include: [
       {
         model: Rating,
-        attributes: ["score"],
+        attributes: ["id_rating", "score"],
       },
     ],
     order: [["id_book", "ASC"]],
@@ -73,7 +73,6 @@ bookRoute.get("/findAll", async (req, res) => {
       result.push(Book);
     }
   }
-  //console.log(result);
 
   res.send(result);
 });

@@ -24,28 +24,40 @@ ratingRoute.post("/findAll", async (req, res) => {
 
 ratingRoute.post("/comment", async (req, res) => {
   let role = await getRole(req.session.passport.user.id_account);
-  if (role) {
-    if (req.body.score <= 5) {
-      let data = {
-        score: req.body.score,
-        time: new Date(),
-        fk_book: req.body.fk_book,
-        fk_role: role.id_role,
-        comment: req.body.comment || null,
-      };
+  //check if user comment this book yet
+  let checkRating = await Rating.findOne({
+    where: {
+      fk_book: req.body.fk_book,
+      fk_role: role.id_role,
+    },
+  });
 
-      await Rating.create(data)
-        .then(() => {
-          res.send({
-            message: "commented successful!",
+  if (!checkRating) {
+    if (role) {
+      if (req.body.score <= 5) {
+        let data = {
+          score: req.body.score,
+          time: new Date(),
+          fk_book: req.body.fk_book,
+          fk_role: role.id_role,
+          comment: req.body.comment || null,
+        };
+
+        await Rating.create(data)
+          .then(() => {
+            res.send({
+              message: "commented successful!",
+            });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      res.send({ err: "max score is 5.00 and must positive nuber" });
+      } else {
+        res.send({ err: "max score is 5.00 and must positive nuber" });
+      }
     }
+  } else {
+    res.send({ err: "you review this book already!" });
   }
 });
 

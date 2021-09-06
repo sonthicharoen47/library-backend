@@ -8,6 +8,8 @@ const Rent = require("./rent.model");
 const RentDetail = require("./rentDetail.model");
 const RoleDetail = require("./roleDetail.model");
 
+//warning rating book role relation
+
 Account.hasOne(Role, { foreignKey: "fk_account" });
 Role.belongsTo(Account, { foreignKey: "fk_account" });
 
@@ -20,10 +22,10 @@ Book.belongsTo(Author, { foreignKey: "fk_author" });
 Category.hasMany(Book, { foreignKey: "fk_category" });
 Book.belongsTo(Category, { foreignKey: "fk_category" });
 
-Book.hasMany(Rating, { foreignKey: "fk_book" });
+Book.hasOne(Rating, { foreignKey: "fk_book" });
 Rating.belongsTo(Book, { foreignKey: "fk_book" });
 
-Role.hasMany(Rating, { foreignKey: "fk_role" });
+Role.hasOne(Rating, { foreignKey: "fk_role" });
 Rating.belongsTo(Role, { foreignKey: "fk_role" });
 
 Rent.hasMany(RentDetail, { foreignKey: "fk_rent" });
