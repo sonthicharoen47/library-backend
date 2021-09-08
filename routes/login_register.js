@@ -24,7 +24,6 @@ route.post("/login", (req, res, next) => {
             },
           ],
         });
-        // console.log(checkRole.RoleDetail.position);
 
         const users = {
           fname: user.fname,

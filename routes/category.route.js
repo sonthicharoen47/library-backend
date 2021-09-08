@@ -11,4 +11,14 @@ categoryRoute.post("/addCategory", async (req, res) => {
     });
 });
 
+categoryRoute.get("/findAll", async (req, res) => {
+  await Category.findAll()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = categoryRoute;

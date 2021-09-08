@@ -40,6 +40,13 @@ module.exports = (app) => {
   );
 
   app.use(
+    "/rent",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./rent.route")
+  );
+
+  app.use(
     "/rentDetail",
     ensureAuthenticated,
     passport.authenticate("jwt", { session: false }),
