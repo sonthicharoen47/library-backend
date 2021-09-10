@@ -1,10 +1,10 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/dbConfig");
 
-const RentDetail = sequelize.define(
-  "RentDetail",
+const BorrowDetail = sequelize.define(
+  "BorrowDetail",
   {
-    id_rentDetail: {
+    id_borrowDetail: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -15,9 +15,9 @@ const RentDetail = sequelize.define(
     },
   },
   {
-    tableName: "rentDetail",
+    tableName: "borrowDetail",
     timestamps: false,
   }
 );
 
-module.exports = RentDetail;
+module.exports = BorrowDetail;

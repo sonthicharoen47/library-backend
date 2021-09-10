@@ -40,20 +40,6 @@ module.exports = (app) => {
   );
 
   app.use(
-    "/rent",
-    ensureAuthenticated,
-    passport.authenticate("jwt", { session: false }),
-    require("./rent.route")
-  );
-
-  app.use(
-    "/rentDetail",
-    ensureAuthenticated,
-    passport.authenticate("jwt", { session: false }),
-    require("./rentDetail.route")
-  );
-
-  app.use(
     "/category",
     ensureAuthenticated,
     passport.authenticate("jwt", { session: false }),
@@ -65,5 +51,18 @@ module.exports = (app) => {
     ensureAuthenticated,
     passport.authenticate("jwt", { session: false }),
     require("./rating.route")
+  );
+
+  app.use(
+    "/borrow",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./borrow.route")
+  );
+  app.use(
+    "/borrowDetail",
+    ensureAuthenticated,
+    passport.authenticate("jwt", { session: false }),
+    require("./borrowDetail.route")
   );
 };

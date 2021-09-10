@@ -1,14 +1,15 @@
-const rentRoute = require("express").Router();
-const { Rent, RentDetail, Role, Account } = require("../models/index");
+const borrowRoute = require("express").Router();
+const { Borrow, BorrowDetail, Role, Account } = require("../models/index");
+const { checkRoleAdmin } = require("../middleware/auth");
 
-rentRoute.get("/findAll", async (req, res) => {
-  await Rent.findAll({
+borrowRoute.get("/findAll", checkRoleAdmin, async (req, res) => {
+  await Borrow.findAll({
     where: {
-      status: "waiting",
+      status: "ordering",
     },
     include: [
       {
-        model: RentDetail,
+        model: BorrowDetail,
       },
       {
         model: Role,
@@ -33,4 +34,4 @@ rentRoute.get("/findAll", async (req, res) => {
     });
 });
 
-module.exports = rentRoute;
+module.exports = borrowRoute;

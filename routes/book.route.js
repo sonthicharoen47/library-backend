@@ -1,7 +1,8 @@
 const bookRoute = require("express").Router();
 const { Book, Rating } = require("../models");
+const { checkRoleAdmin } = require("../middleware/auth");
 
-bookRoute.post("/addBook", async (req, res) => {
+bookRoute.post("/addBook", checkRoleAdmin, async (req, res) => {
   let data = {
     title: req.body.title,
     description: req.body.description,

@@ -13,12 +13,19 @@ const app = express();
 testDatabaseConnection();
 
 app.set("trust proxy", 1);
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 require("./routes/index")(app);
 

@@ -1,5 +1,6 @@
 const roleDetailRoute = require("express").Router();
 const { RoleDetail } = require("../models");
+const { checkRoleAdmin } = require("../middleware/auth");
 
 //get a roleDetail
 roleDetailRoute.post("/me", async (req, res) => {
@@ -12,7 +13,7 @@ roleDetailRoute.post("/me", async (req, res) => {
 });
 
 //add a new role
-roleDetailRoute.post("/addRole", async (req, res) => {
+roleDetailRoute.post("/addRole", checkRoleAdmin, async (req, res) => {
   let data = {
     position: req.body.position,
     salary: req.body.salary,

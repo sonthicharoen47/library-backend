@@ -36,7 +36,7 @@ route.post("/login", (req, res, next) => {
 
         const token = jwt.sign(
           { id: checkRole.id_role, email: user.email },
-          "secretKey",
+          process.env.SECRET_KEY,
           { expiresIn: "1d" }
         );
         req.login(user, (err) => {
