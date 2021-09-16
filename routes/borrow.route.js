@@ -199,4 +199,53 @@ borrowRoute.put("/update", checkRoleAdmin, async (req, res) => {
   }
 });
 
+borrowRoute.delete("/delete", checkRoleAdmin, async (req, res) => {
+  let idList = req.body.borrowListId;
+  var destroyBorrow;
+  if (!idList) {
+    res.send("id missing!");
+  } else if (Array.isArray(idList) && idList != []) {
+    for (let i = 0; i < idList.length; i++) {
+      let borrowDetailIds = await BorrowDetail.findAll({
+        where: { fk_borrow: idList[i] },
+      });
+      for (let j = 0; j < borrowDetailIds.length; j++) {
+        await BorrowDetail.destroy({
+          where: {
+            fk_borrow: idList[i],
+          },
+        });
+      }
+      destroyBorrow = await Borrow.destroy({
+        where: {
+          id_borrow: idList[i],
+        },
+      });
+    }
+  } else {
+    let borrowDetailId = await BorrowDetail.findAll({
+      where: {
+        fk_borrow: idList,
+      },
+    });
+    for (let i = 0; i < borrowDetailId.length; i++) {
+      await BorrowDetail.destroy({
+        where: {
+          fk_borrow: idList,
+        },
+      });
+    }
+    destroyBorrow = await Borrow.destroy({
+      where: {
+        id_borrow: idList,
+      },
+    });
+  }
+  if (destroyBorrow == 1) {
+    res.send({ message: "destroy borrow successful!" });
+  } else {
+    res.send({ err: "can not destroy borrow!" });
+  }
+});
+
 module.exports = borrowRoute;
