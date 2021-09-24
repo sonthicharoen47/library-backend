@@ -168,6 +168,11 @@ borrowRoute.get("/find/return", checkRoleAdmin, async (req, res) => {
 borrowRoute.put("/update", checkRoleAdmin, async (req, res) => {
   let idList = req.body.borrowListId;
   let checkStatus = req.body.status;
+  if (checkStatus === "ordering") {
+    checkStatus = "borrowing";
+  } else if (checkStatus === "borrowing") {
+    checkStatus = "return";
+  }
   var updateStatus;
   if (Array.isArray(idList) && checkStatus) {
     for (let i = 0; i < idList.length; i++) {
